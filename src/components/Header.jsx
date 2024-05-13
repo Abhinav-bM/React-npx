@@ -1,29 +1,40 @@
-import React, { Component } from "react";
-import Child from "./Child/Child";
+import React, { useState, useContext } from "react";
+import UserContex from "../context/UserContex";
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { color: "red" };
+const Header = () => {
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { setUser } = useContext(UserContex);
+
+  function HandleSubmit(e) {
+    e.preventDefault();
+    setUser({ name, password });
   }
 
-  changeColor = () => {
-    this.setState({
-      color: this.state.color === "red" ? "green" : "red",
-    });
-  };
+  console.log("data :", name, password)
 
-  render() {
-    return (
-      <div>
-        <h1 style={{ color: this.state.color }}>
-          favourite color is {this.state.color}
-        </h1>
-        <button onClick={this.changeColor}>click Me</button>
-        <Child parentState={this.state.color} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1>Login</h1>
+
+      <input
+        type="text"
+        name="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <input
+        type="text"
+        name="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button onClick={HandleSubmit}>Submit</button>
+    </div>
+  );
+};
 
 export default Header;
